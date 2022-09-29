@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data.Common;
 using System.Data.SqlClient;
+using System.Transactions;
 
 // Creazione Lista Libri Esempio
 /*List<Library.User> users = new List<Library.User>();
@@ -70,6 +72,55 @@ try
 
             break;
         case 2:
+
+
+            try
+            {
+                connection.Open();
+
+                Console.WriteLine("Inserisci il titolo");
+                string title = Console.ReadLine();
+                Console.WriteLine("Inserisci il genere");
+                string section = Console.ReadLine();
+
+                string charRandom = GetLetter().ToString();
+                Random r = new Random();
+                int randomInt = r.Next(1, 10);
+
+                string position = randomInt + charRandom;
+
+                Console.WriteLine("Inserisci l'Autore");
+                string author = Console.ReadLine();
+                Console.WriteLine("Inserisci il anno di pubblicazione");
+                string releaseYearInput = Console.ReadLine();
+                /*
+                 transaction prova
+                 */
+                int releaseYear = Int32.Parse(releaseYearInput);
+
+                string query = "INSERT INTO Documents (Title, Section, Position, Author, ReleaseYear) VALUES(@Title, @Section, @Position, @Author, @ReleaseYear)";
+                SqlCommand sqlCommand = new SqlCommand(query, connection);
+
+                sqlCommand.Parameters.Add(new SqlParameter("@Title", title));
+                sqlCommand.Parameters.Add(new SqlParameter("@Section", section));
+                sqlCommand.Parameters.Add(new SqlParameter("@Position", position));
+                sqlCommand.Parameters.Add(new SqlParameter("@Author", author));
+                sqlCommand.Parameters.Add(new SqlParameter("@ReleaseYear", releaseYear));
+
+                int affectedRows = sqlCommand.ExecuteNonQuery();
+                Console.WriteLine(affectedRows);
+            
+
+
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
             break;
 
 
@@ -78,7 +129,7 @@ try
 }
 catch (Exception e)
 {
-    Console.WriteLine(e.Message);   
+    Console.WriteLine(e.Message);
 }
 
 
@@ -86,3 +137,10 @@ catch (Exception e)
 
 
 
+static char GetLetter()
+{
+    string chars = "ABCDEF";
+    Random rand = new Random();
+    int num = rand.Next(0, chars.Length);
+    return chars[num];
+}
