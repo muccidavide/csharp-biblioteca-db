@@ -1,4 +1,4 @@
-﻿
+﻿using System.Data.SqlClient;
 
 /*Si vuole progettare un sistema per la gestione di una biblioteca. Gli utenti si possono registrare al sistema, fornendo:
 cognome,
@@ -30,6 +30,8 @@ Deve essere possibile effettuare la ricerca dei prestiti dato nome e cognome di 
 
 // FIX BOOK AND DVD WITH OVERWRITE
 
+using System.Reflection.PortableExecutable;
+
 public class Book : Document
 {
     public int pageNumber { get; set; }
@@ -38,6 +40,8 @@ public class Book : Document
     {
         this.pageNumber = pageNumber;
     }
+
+    
 }
 
 

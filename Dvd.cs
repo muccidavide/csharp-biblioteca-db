@@ -28,6 +28,8 @@ Deve essere possibile effettuare la ricerca dei prestiti dato nome e cognome di 
 
 
 
+using System.Data.SqlClient;
+
 public class Dvd : Document
 {
     public int minutesDuration { get; set; }
@@ -36,6 +38,10 @@ public class Dvd : Document
     {
         this.minutesDuration = minutesDuration;
     }
+    
+
+
+
 }
 
 

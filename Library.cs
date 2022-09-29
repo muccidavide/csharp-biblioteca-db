@@ -41,7 +41,8 @@ public partial class Library
     {
         Console.WriteLine("Inserisci il titolo o codice");
 
-        string answer = Console.ReadLine(); 
+        string answer = Console.ReadLine();
+        string query = $"SELECT * FROM Documents INNER JOIN Books ON Books.id = Documents.id WHERE Documents.name = '%{answer}%'";
 
         foreach (Document document in documents)
         {

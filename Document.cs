@@ -25,6 +25,8 @@ Deve essere possibile effettuare la ricerca dei prestiti dato nome e cognome di 
 
 // Documenti estende Utente
 
+using System.Data.SqlClient;
+
 public class Document : Library.User
 {
     public int isbn { get; set; }
@@ -50,6 +52,15 @@ public class Document : Library.User
 
     public Document(string firstName, string lastName, string email, string password, long phoneNumber, int isbn, string title, string section, bool available, string position, string author, int year, int duration) : base(firstName, lastName, email, password, phoneNumber)
     {
+    }
+
+    public static void Print(SqlDataReader reader)
+    {
+        Console.WriteLine($"Title: {reader.GetString(1)}");
+        Console.WriteLine($"Genre: {reader.GetString(2)}");
+        Console.WriteLine($"Position: {reader.GetString(3)}");
+        Console.WriteLine($"Author: {reader.GetString(4)}");
+        Console.WriteLine("");
     }
 }
 

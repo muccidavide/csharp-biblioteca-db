@@ -1,5 +1,5 @@
-﻿using System.Data.SqlClient;
-
+﻿using System;
+using System.Data.SqlClient;
 
 // Creazione Lista Libri Esempio
 /*List<Library.User> users = new List<Library.User>();
@@ -28,16 +28,61 @@ ravenna.Search();
 string connectionString = "Data Source=localhost;Initial Catalog=experis-biblioteca;Integrated Security=True";
 
 SqlConnection connection = new SqlConnection(connectionString);
+
+Console.WriteLine("Vuoi cercare[1] o aggiungere[2] un documento?");
+int userResponse;
 try
 {
-    connection.Open();
+    userResponse = Convert.ToInt32(Console.ReadLine());
+
+    switch (userResponse)
+    {
+        case 1:
+
+            try
+            {
+                connection.Open();
+
+                Console.WriteLine("Inserisci il titolo");
+
+                string answer = Console.ReadLine();
+                string query = $"SELECT * FROM Documents LEFT JOIN Books ON Books.id = Documents.id LEFT JOIN Dvd ON Dvd.id = Documents.id WHERE Documents.Title like @Title ";
+
+                SqlCommand sqlCommand = new SqlCommand(query, connection);
+                sqlCommand.Parameters.Add(new SqlParameter("@Title", answer));
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Document.Print(reader);
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+
+            break;
+        case 2:
+            break;
+
+
+    }
+
 }
-catch(SqlException ex)
+catch (Exception e)
 {
-    Console.WriteLine(ex.Message);  
+    Console.WriteLine(e.Message);   
 }
-finally
-{
-    connection.Close();
-}
+
+
+
+
+
 
